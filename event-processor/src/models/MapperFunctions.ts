@@ -43,4 +43,14 @@ const localizacaoEscolaMap = new Map<string, string>([
     ["2", "Rural"],
 ]);
 
+const corRacaMap = new Map<string, string>([
+    ["0", "Não declarado"],
+    ["1", "Branca"],
+    ["2", "Preta"],
+    ["3", "Parda"],
+    ["4", "Amarela"],
+    ["5", "Indígena "],
+    ["6", "Não dispõe da informação"],
+]);
+
 module.exports = { faixaEtariaMap };
