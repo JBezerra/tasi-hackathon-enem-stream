@@ -1,5 +1,5 @@
 import EnemInputMessage from "./EnemInputMessage";
-import { faixaEtariaMap, tipoEscolaMap, situacaoConclusaoMap, questionMapper, q006Map, q008Map, q019Map, q022Map, q024Map, q025Map } from "./MapperFunctions";
+import { faixaEtariaMap, tipoEscolaMap, situacaoConclusaoMap, questionMapper, q006Map, q008Map, q019Map, q022Map, q024Map, q025Map, corRacaMap } from "./MapperFunctions";
 import Question from "./Question";
 
 export default class EnemOutputMessage {
@@ -10,6 +10,7 @@ export default class EnemOutputMessage {
         this.localizacaoEscola = faixaEtariaMap.get(input.TP_LOCALIZACAO_ESC);
         this.tipoEscola = tipoEscolaMap.get(input.TP_ESCOLA);
         this.situacaoConclusao = situacaoConclusaoMap.get(input.TP_ST_CONCLUSAO);
+        this.corRaca = corRacaMap.get(input.TP_COR_RACA);
         this.ufEscola = input.SG_UF_ESC;     
 
         this.questionario = [
@@ -58,4 +59,5 @@ export default class EnemOutputMessage {
     situacaoConclusao: string | undefined;
     ufEscola: string | undefined;
     questionario: Question[];
+    corRaca: string | undefined;
 }

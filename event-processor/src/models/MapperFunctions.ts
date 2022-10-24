@@ -44,7 +44,7 @@ export const localizacaoEscolaMap = new Map<string, string>([
     ["2", "Rural"],
 ]);
 
-const corRacaMap = new Map<string, string>([
+export const corRacaMap = new Map<string, string>([
     ["0", "Não declarado"],
     ["1", "Branca"],
     ["2", "Preta"],
