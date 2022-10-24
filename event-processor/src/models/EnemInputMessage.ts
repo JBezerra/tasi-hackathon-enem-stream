@@ -1,6 +1,7 @@
 export default interface EnemInputMessage {
     TP_FAIXA_ETARIA: string;
     TP_SEXO: string;
+    TP_COR_RACA: string;
     TP_ST_CONCLUSAO: string;
     TP_ESCOLA: string;
     SG_UF_ESC: string;

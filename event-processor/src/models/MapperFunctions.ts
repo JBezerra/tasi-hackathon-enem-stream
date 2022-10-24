@@ -44,6 +44,16 @@ export const localizacaoEscolaMap = new Map<string, string>([
     ["2", "Rural"],
 ]);
 
+const corRacaMap = new Map<string, string>([
+    ["0", "Não declarado"],
+    ["1", "Branca"],
+    ["2", "Preta"],
+    ["3", "Parda"],
+    ["4", "Amarela"],
+    ["5", "Indígena "],
+    ["6", "Não dispõe da informação"],
+]);
+
 export const questionMapper = new Map<string, string>([
     ["Q005", "Incluindo você, quantas pessoas moram atualmente em sua residência?"],
     ["Q006", "Qual é a renda mensal de sua família? (Some a sua renda com a dos seus familiares"],
