@@ -5,8 +5,6 @@ import EnemOutputMessage from "./models/EnemOutputMessage";
 const kafka = new Kafka({ clientId: 'enem-processor', brokers: ['localhost:9092'] })
 const consumer = kafka.consumer({ groupId: 'enem-processor-4' });
 
-let counter = 0;
-
 async function main() {
 
 	await consumer.connect()
@@ -22,8 +20,7 @@ async function main() {
 
 			const enemOutputMessage = new EnemOutputMessage(enemInputMessage);
 
-			console.log(`Message: ${counter}, Content: ${enemInputMessage.TP_FAIXA_ETARIA}`);
-			counter++;
+			console.log(`Message received! Content: ${JSON.stringify(enemOutputMessage)}`);
 		}
 	})
 }
