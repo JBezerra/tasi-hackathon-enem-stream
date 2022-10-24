@@ -55,8 +55,8 @@ export const questionMapper = new Map<string, string>([
 ]);
 
 export const q006Map = new Map<string, string>([
-    ["A", "Nenhuma Renda"],
-    ["B", "0 - 1.100,00"],
+    ["A", "0"],
+    ["B", "0,01 - 1.100,00"],
     ["C", "1.100,01 - 1.650,00"],
     ["D", "1.650,01 - 2.200,00"],
     ["E", "2.200,01 - 2.750,00"],
