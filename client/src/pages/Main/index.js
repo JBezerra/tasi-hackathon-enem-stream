@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { Text, Card, Clock, FlexLayout } from "../../components";
 import { MapBrazil } from "react-brazil-map";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3001");
 
 function Main() {
   const [distritc, setDistrict] = useState();
+  const [subscriptions, setSubscriptions] = useState([]);
+
+  useEffect(() => {
+    socket.on("enem-data", (data) => {
+      const parsedData = JSON.parse(data);
+      setSubscriptions((arr) => [...arr, parsedData]);
+    });
+  }, [socket]);
 
   return (
     <FlexLayout justify="center" style={{ padding: "30px" }}>
@@ -23,7 +34,11 @@ function Main() {
           </div>
           <div style={{ padding: "20px" }}>
             <FlexLayout>
-              <Text text={0} holder="bold" style={{ fontSize: "24px" }} />
+              <Text
+                text={subscriptions.length}
+                holder="bold"
+                style={{ fontSize: "24px" }}
+              />
               <Text
                 holder="label"
                 text="&nbsp; número total de inscritos"
@@ -41,7 +56,13 @@ function Main() {
             />
             <div style={{ padding: "20px" }}>
               <FlexLayout>
-                <Text text={0} holder="bold" style={{ fontSize: "24px" }} />
+                <Text
+                  text={
+                    subscriptions.filter((s) => s.ufEscola === distritc).length
+                  }
+                  holder="bold"
+                  style={{ fontSize: "24px" }}
+                />
                 <Text
                   holder="label"
                   text="&nbsp; número total de inscritos"

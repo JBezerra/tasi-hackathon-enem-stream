@@ -9,9 +9,8 @@ import { parseData } from './modules/dataset'
  * and paste it inside /dataset folder
  */
 
-const ONE_SECOND = 1000;
-const BATCH_TIMEOUT = ONE_SECOND;
-const BATCH_SIZE = 100;
+const BATCH_TIMEOUT = Math.random() * 1000;
+const BATCH_SIZE = 1;
 
 async function main() {
   const kafka = new Kafka({ cliendId: 'enem-producer', broker: 'localhost:9092' })
