@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Text, Card, Clock, FlexLayout } from "../../components";
 import { MapBrazil } from "react-brazil-map";
 import io from "socket.io-client";
+import { getEnemData } from "../../services/main";
 const socket = io.connect("http://localhost:3001");
 
 function Main() {
@@ -22,10 +23,27 @@ function Main() {
     });
   }, [socket]);
 
+  useEffect(async () => {
+    const res = await getEnemData();
+    setTotalCount(res.totalCount);
+    for (let key in res.districtsCount) {
+      console.log(key, res.districtsCount[key]);
+      setDistrictsCount((mp) => {
+        const uf = key;
+        mp.set(uf, res.districtsCount[key]);
+        return mp;
+      });
+    }
+  }, []);
+
   return (
     <FlexLayout justify="center" style={{ padding: "30px" }}>
       <div>
-        <Text style={{ padding: "10px" }} holder="header" text="Selecione um distrito" />
+        <Text
+          style={{ padding: "10px" }}
+          holder="header"
+          text="Selecione um distrito"
+        />
         <MapBrazil onChange={setDistrict} />
       </div>
       <div style={{ padding: "40px 0 0 30px", maxWidth: "350px" }}>

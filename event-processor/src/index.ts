@@ -8,6 +8,8 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
+app.use(cors());
+
 let totalCount = 0;
 let districtsCount: any = {};
 let racialLabelsData: any = {};
@@ -23,8 +25,6 @@ app.get("/data", (_req: any, res: any, _next: any) => {
     faixaEtariaLabelsData,
   });
 });
-
-app.use(cors());
 
 const server = http.createServer(app);
 
@@ -82,7 +82,7 @@ async function main() {
 }
 
 io.on("connection", (socket: any) => {
-  console.log(`User client: ${socket.id}`);
+  console.log(`+connection: ${socket.id}`);
   connections.push(socket);
 });
 

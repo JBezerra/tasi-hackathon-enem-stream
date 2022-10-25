@@ -12,6 +12,7 @@ import {
   Title,
 } from "chart.js";
 import { Doughnut, Bar } from "react-chartjs-2";
+import { getEnemData } from "../../services/main";
 import io from "socket.io-client";
 const socket = io.connect("http://localhost:3001");
 const acessoInternetLabels = ["Sim", "Não"];
@@ -68,11 +69,52 @@ function Dashboards() {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
+  useEffect(async () => {
+    const res = await getEnemData();
+    for (let key in res.racialLabelsData) {
+      setRacialLabelsData((arr) => {
+        const idx = racialLabels.findIndex((r) => r === key);
+        arr[
+          idx >= 0 && idx < racialLabels.length ? idx : racialLabels.length - 1
+        ] = res.racialLabelsData[key];
+        return arr;
+      });
+    }
+    for (let key in res.acessoInternetLabelsData) {
+      console.log(key, res.acessoInternetLabelsData[key]);
+      setAcessoInternetLabelsData((arr) => {
+        const idx = acessoInternetLabels.findIndex((r) => r === key);
+        arr[
+          idx >= 0 && idx < acessoInternetLabels.length
+            ? idx
+            : acessoInternetLabels.length - 1
+        ] = res.acessoInternetLabelsData[key];
+        console.log(idx);
+        return arr;
+      });
+    }
+    for (let key in res.faixaEtariaLabelsData) {
+      console.log(key, res.faixaEtariaLabelsData[key]);
+      setFaixaEtariaLabelsData((arr) => {
+        const idx = faixaEtariaLabels.findIndex((r) => r === key);
+        arr[
+          idx >= 0 && idx < faixaEtariaLabels.length
+            ? idx
+            : faixaEtariaLabels.length - 1
+        ] = res.faixaEtariaLabelsData[key];
+        console.log(idx);
+        return arr;
+      });
+    }
+  }, []);
+
   useEffect(() => {
     socket.on("enem-data", (data) => {
       const parsedData = JSON.parse(data);
       parsedData.timestamp = new Date().getTime();
-      setSubscriptions((arr) => [...arr, parsedData]);
+      setSubscriptions((arr) =>
+        [...arr, parsedData].slice(Math.max(subscriptions.length - 15, 0))
+      );
       setRacialLabelsData((arr) => {
         const idx = racialLabels.findIndex(
           (r) => r === parsedData.corRaca.trim()
@@ -158,18 +200,15 @@ function Dashboards() {
     <FlexLayout justify="around" style={{ padding: "40px 0 0 30px" }}>
       <Card style={{ padding: "20px" }}>
         <Text holder="header" text="Logs" />
-        {subscriptions
-          .slice(Math.max(subscriptions.length - 15, 0))
-          .reverse()
-          .map((s) => (
-            <Text
-              key={`subscription-log-${s.timestamp}-${
-                s.corRaca
-              }-${Math.random()}-${s.questionario[0].answer}`}
-              holder="subtitle"
-              text={`+ Recebido at ${s.timestamp}`}
-            />
-          ))}
+        {subscriptions.reverse().map((s) => (
+          <Text
+            key={`subscription-log-${s.timestamp}-${
+              s.corRaca
+            }-${Math.random()}-${s.questionario[0].answer}`}
+            holder="subtitle"
+            text={`+ Recebido at ${s.timestamp}`}
+          />
+        ))}
       </Card>
       <div style={{ width: "70%" }}>
         <Text holder="title" text="Gráficos" />
