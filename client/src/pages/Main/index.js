@@ -25,7 +25,7 @@ function Main() {
   return (
     <FlexLayout justify="center" style={{ padding: "30px" }}>
       <div>
-        <Text style={{ padding: "10px" }} holder="header" text="Navegaçao" />
+        <Text style={{ padding: "10px" }} holder="header" text="Selecione um distrito" />
         <MapBrazil onChange={setDistrict} />
       </div>
       <div style={{ padding: "40px 0 0 30px", maxWidth: "350px" }}>

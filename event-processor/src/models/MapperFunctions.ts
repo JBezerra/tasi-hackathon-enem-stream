@@ -117,7 +117,7 @@ export const q024Map = new Map<string, string>([
 ]);
 
 export const q025Map = new Map<string, string>([
-    ["A", "Sim"],
-    ["B", "Não"],
+    ["A", "Não"],
+    ["B", "Sim"],
 ]);
 

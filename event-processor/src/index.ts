@@ -8,6 +8,22 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
+let totalCount = 0;
+let districtsCount: any = {};
+let racialLabelsData: any = {};
+let acessoInternetLabelsData: any = {};
+let faixaEtariaLabelsData: any = {};
+app.get("/data", (_req: any, res: any, _next: any) => {
+  console.log("+req");
+  res.json({
+    totalCount,
+    districtsCount,
+    racialLabelsData,
+    acessoInternetLabelsData,
+    faixaEtariaLabelsData,
+  });
+});
+
 app.use(cors());
 
 const server = http.createServer(app);
@@ -39,6 +55,25 @@ async function main() {
       ) as EnemInputMessage;
 
       const enemOutputMessage = new EnemOutputMessage(enemInputMessage);
+      console.log("+data");
+      totalCount += 1;
+      if (enemOutputMessage.corRaca)
+        racialLabelsData[enemOutputMessage.corRaca] =
+          (racialLabelsData[enemOutputMessage.corRaca] ?? 0) + 1;
+
+      if (enemOutputMessage.questionario[6].answer)
+        acessoInternetLabelsData[enemOutputMessage.questionario[6].answer] =
+          (acessoInternetLabelsData[enemOutputMessage.questionario[6].answer] ??
+            0) + 1;
+
+      if (enemOutputMessage.faixaEtaria)
+        faixaEtariaLabelsData[enemOutputMessage.faixaEtaria] =
+          (faixaEtariaLabelsData[enemOutputMessage.faixaEtaria] ?? 0) + 1;
+
+      if (enemOutputMessage.ufEscola)
+        districtsCount[enemOutputMessage.ufEscola] =
+          (districtsCount[enemOutputMessage.ufEscola] ?? 0) + 1;
+
       connections.forEach((socket) => {
         socket.emit("enem-data", JSON.stringify(enemOutputMessage));
       });
