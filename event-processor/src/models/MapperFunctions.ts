@@ -50,7 +50,7 @@ export const corRacaMap = new Map<string, string>([
     ["2", "Preta"],
     ["3", "Parda"],
     ["4", "Amarela"],
-    ["5", "Indígena "],
+    ["5", "Indígena"],
     ["6", "Não dispõe da informação"],
 ]);
 
