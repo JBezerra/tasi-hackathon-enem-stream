@@ -112,9 +112,10 @@ function Dashboards() {
     socket.on("enem-data", (data) => {
       const parsedData = JSON.parse(data);
       parsedData.timestamp = new Date().getTime();
-      setSubscriptions((arr) =>
-        [...arr, parsedData].slice(Math.max(subscriptions.length - 15, 0))
-      );
+      setSubscriptions((arr) => {
+        arr.push(parsedData);
+        return arr.slice(Math.max(arr.length - 15, 0));
+      });
       setRacialLabelsData((arr) => {
         const idx = racialLabels.findIndex(
           (r) => r === parsedData.corRaca.trim()
