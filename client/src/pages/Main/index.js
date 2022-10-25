@@ -7,12 +7,18 @@ const socket = io.connect("http://localhost:3001");
 
 function Main() {
   const [distritc, setDistrict] = useState();
-  const [subscriptions, setSubscriptions] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [districtsCount, setDistrictsCount] = useState(new Map());
 
   useEffect(() => {
     socket.on("enem-data", (data) => {
       const parsedData = JSON.parse(data);
-      setSubscriptions((arr) => [...arr, parsedData]);
+      setDistrictsCount((mp) => {
+        const uf = parsedData.ufEscola;
+        mp.set(uf, (mp.get(uf) ?? 0) + 1);
+        return mp;
+      });
+      setTotalCount((val) => val + 1);
     });
   }, [socket]);
 
@@ -35,7 +41,7 @@ function Main() {
           <div style={{ padding: "20px" }}>
             <FlexLayout>
               <Text
-                text={subscriptions.length}
+                text={totalCount}
                 holder="bold"
                 style={{ fontSize: "24px" }}
               />
@@ -57,9 +63,7 @@ function Main() {
             <div style={{ padding: "20px" }}>
               <FlexLayout>
                 <Text
-                  text={
-                    subscriptions.filter((s) => s.ufEscola === distritc).length
-                  }
+                  text={districtsCount.get(distritc) ?? 0}
                   holder="bold"
                   style={{ fontSize: "24px" }}
                 />
